@@ -50,11 +50,17 @@ def start_command(message):
 
 @bot.message_handler(commands=["menu"])
 def menu_command(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    markup.row('➕\nДобавить', '✖\nУдалить', '♾\nИзменить')
-    markup.row('📋 Показать товар в наличии')
-    markup.row('👤 О нас')
-    return bot.send_message(message.chat.id, "<b>Вы в меню 📜</b>", parse_mode="HTML", reply_markup=markup)
+    if admin_users.user_check_on_admin(message.from_user.id) == "admin":
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        markup.row('➕\nДобавить', '✖\nУдалить', '♾\nИзменить')
+        markup.row('📋 Показать товар в наличии')
+        markup.row('👤 О нас')
+        return bot.send_message(message.chat.id, "<b>Меню 📜</b>", parse_mode="HTML", reply_markup=markup)
+    else:
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        markup.row('📋 Показать товар в наличии')
+        markup.row('👤 О нас')
+        return bot.send_message(message.chat.id, "<b>Меню 📜</b>", parse_mode="HTML", reply_markup=markup)
 
 
 @bot.message_handler(commands=["input"])
