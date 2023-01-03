@@ -19,10 +19,10 @@ def user_check_in_db(user_id):
     cursor.execute(f"SELECT users.user_id FROM users WHERE users.user_id = '{user_id}'")
     if cursor.fetchone() is None:
         cursor.close()
-        return True
+        return False
     else:
         cursor.close()
-        return False
+        return True
 
 
 def user_add_in_db(user):

@@ -1,6 +1,6 @@
 import sqlite3
 
-connect = sqlite3.connect("data_base.db")
+connect = sqlite3.connect("data_base.db", check_same_thread=False)
 
 
 def product_table_create():
@@ -17,15 +17,6 @@ def product_table_create():
     connect.commit()
     cursor.close()
 
-#name is Название
-#taste is Вкус
-#volume is Объем
-#type is Тип
-#country is Страна
-
-#amount is Количество
-#price is Цена
-
 
 def products_add_in_db(products):
     cursor = connect.cursor()
@@ -39,10 +30,10 @@ def products_check_in_db(products_list):
     cursor.execute(f"SELECT rowid FROM products WHERE name=? AND taste=? AND volume=? AND type=? AND country=?", products_list[:5])
     if cursor.fetchone() is None:
         cursor.close()
-        return True
+        return False
     else:
         cursor.close()
-        return False
+        return True
 
 
 def select_all_in_table():
@@ -52,7 +43,7 @@ def select_all_in_table():
     for tab in cursor.fetchall():
         tables.append(tab)
     if not tables:
-        return True
+        return False
     return tables
 
 
@@ -63,7 +54,7 @@ def select_name_in_table(name):
     for tab in cursor.fetchall():
         names.append(tab)
     if not names:
-        return True
+        return False
     return names
 
 

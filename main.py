@@ -40,7 +40,7 @@ def create_file_text_table(message, table):
 
 @bot.message_handler(commands=["start"])
 def start_command(message):
-    if users_db.user_check_in_db(message.from_user.id):
+    if not users_db.user_check_in_db(message.from_user.id):
         user = (message.from_user.id,
                 message.from_user.first_name,
                 admin_users.user_check_on_admin(message.from_user.id))
@@ -64,7 +64,6 @@ def menu_command(message):
 
 
 @bot.message_handler(commands=["input"])
-#New command input
 def new_input_command(message):
     bot.send_message(message.chat.id, "<b>Введите данные о товаре, который хотите добавить</b>\n<em>Пример ввода выведен ниже, можете нажать и скопировать его</em>", parse_mode="HTML")
     bot.send_message(message.chat.id, "<b><em><code>название|вкус|объем|тип|страна|количество|цена</code></em></b>",
@@ -87,18 +86,18 @@ def new_validation_check(message):
 
 
 def new_product_list_push(message, new_product_list):
-    if products_db.products_check_in_db(new_product_list):
+    if not products_db.products_check_in_db(new_product_list):
         products_db.products_add_in_db(new_product_list)
         bot.send_message(message.chat.id, "<b>Товар сохранен</b> ✅", parse_mode="HTML")
         return menu_command(message)
     else:
-        bot.send_message(message.chat.id, "<em>Такой товар уже имеется в базе, если хотите изменить его параметры, нажмите на -></em><b>/♾ Редактировать товар</b> ❌")
+        bot.send_message(message.chat.id, "<em>Такой товар уже имеется в базе, если хотите изменить его параметры, нажмите на -></em><b>/♾ Редактировать товар</b> ❌", parse_mode="HTML")
         return menu_command(message)
 
 
 @bot.message_handler(commands=["delete"])
 def delete_command(message):
-    if products_db.select_all_in_table():
+    if not products_db.select_all_in_table():
         bot.send_message(message.chat.id, "<b><em>Склад пуст</em></b> 😅", parse_mode="HTML")
         return menu_command(message)
     else:
@@ -119,7 +118,7 @@ def answer_delete(message):
 
 @bot.message_handler(commands=["edit"])
 def edit_command(message):
-    if products_db.select_all_in_table():
+    if not products_db.select_all_in_table():
         bot.send_message(message.chat.id, "<b><em>Склад пуст</em></b> 😅", parse_mode="HTML")
         return menu_command(message)
     else:
@@ -133,7 +132,7 @@ def edit_command(message):
 
 
 def answer_edit_row(message, value):
-    if products_db.select_all_in_table():
+    if not products_db.select_all_in_table():
         bot.send_message(message.chat.id, "<b><em>Склад пуст</em></b> 😅", parse_mode="HTML")
         return menu_command(message)
     else:
@@ -177,7 +176,7 @@ def search_command(message):
 
 
 def answer_search(message):
-    if products_db.select_name_in_table(message.text) is True:
+    if not products_db.select_name_in_table(message.text):
         bot.send_message(message.chat.id, "<b><em>В дынный момент, такого товара нет в наличии</em></b> 😅",
                          parse_mode="HTML")
         return menu_command(message)
@@ -208,7 +207,7 @@ def reply_text(message):
     elif message.text == "♾\nИзменить":
         edit_command(message)
     elif message.text == "📋 Показать товар в наличии":
-        if products_db.select_all_in_table():
+        if not products_db.select_all_in_table():
             bot.send_message(message.chat.id, "<b><em>Склад пуст</em></b> 😅", parse_mode="HTML")
             return menu_command(message)
         else:
@@ -219,13 +218,13 @@ def reply_text(message):
 
             bot.send_message(message.chat.id, "<b>Что дальше?</b>", parse_mode="HTML", reply_markup=markup)
     elif message.text == "🔎 Поиск":
-        if products_db.select_all_in_table():
+        if not products_db.select_all_in_table():
             bot.send_message(message.chat.id, "<b><em>Склад пуст</em></b> 😅", parse_mode="HTML")
             return menu_command(message)
         else:
             search_command(message)
     elif message.text == "📄 Показать весь ассортимент":
-        if products_db.select_all_in_table():
+        if not products_db.select_all_in_table():
             bot.send_message(message.chat.id, "<b><em>Склад пуст</em></b> 😅", parse_mode="HTML")
             return menu_command(message)
         else:
