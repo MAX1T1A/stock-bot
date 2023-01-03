@@ -186,7 +186,7 @@ def answer_search(message):
 
 @bot.message_handler(commands=["about"])
 def about_command(message):
-    return bot.send_message(message.chat.id, "<b>О нас</b>: <em>Мы - небольшой склад, торгующий напитками по магазинам Дагестана, а также за его пределами.\n\n</em><b>Наш Адрес</b>: <em>Миатлинская 101 А\n\n</em><b>Наши контакты</b>: <em>Махач Алдамович \t---\t <code>+7 988 781-84-39</code></em>", parse_mode='HTML')
+    return bot.send_message(message.chat.id, "<b>О нас</b>: <em>Мы - небольшой склад, торгующий напитками по Дагестану, а также за его пределами.\n\n</em><b>Наш Адрес</b>: <em>Миатлинская 101 А\n\n</em><b>Наши контакты</b>: <em>Махач Алдамович \t---\t <code>+7 988 781-84-39</code></em>", parse_mode='HTML')
 
 
 @bot.callback_query_handler(func=lambda call: True)
